@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { getSpaceClient } from "@/lib/spaces";
 import { translateError } from "@/components/SpaceAuth";
+import { MainNav } from "@/components/MainNav";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,7 +26,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-canvas px-4 py-16">
+    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-canvas px-4 pb-16 pt-24">
+      <MainNav space="talameed" />
       <div className="text-center">
         <div dir="ltr" className="font-wordmark text-5xl tracking-tight">
           <span className="text-brand-green">m</span>
