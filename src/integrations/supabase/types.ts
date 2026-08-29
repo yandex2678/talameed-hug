@@ -391,6 +391,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      teaches_student: {
+        Args: { _student_id: string; _teacher_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       account_status: "pending" | "approved" | "rejected"
