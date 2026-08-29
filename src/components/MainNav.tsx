@@ -35,6 +35,15 @@ export function MainNav({ space, onSignOut }: Props) {
       <nav className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-4 px-4">
         {/* Brand + spaces dropdown grouped at the start */}
         <div className="flex items-center gap-3">
+          {/* Wordmark */}
+          <Link to="/" dir="ltr" className="font-wordmark text-xl tracking-tight">
+            {"madauros".split("").map((l, i) => (
+              <span key={`${l}-${i}`} className={i < 4 ? "text-brand-green" : "text-brand-red"}>
+                {l}
+              </span>
+            ))}
+          </Link>
+
           {/* Spaces dropdown — sits to the left of the logo in RTL flow */}
           <div className="relative text-sm">
             <button
@@ -79,15 +88,6 @@ export function MainNav({ space, onSignOut }: Props) {
               </div>
             ) : null}
           </div>
-
-          {/* Wordmark */}
-          <Link to="/" dir="ltr" className="font-wordmark text-xl tracking-tight">
-            {"madauros".split("").map((l, i) => (
-              <span key={`${l}-${i}`} className={i < 4 ? "text-brand-green" : "text-brand-red"}>
-                {l}
-              </span>
-            ))}
-          </Link>
         </div>
 
         {/* Auth action */}
