@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { getSpaceClient, SPACES, STATUS_LABEL, type SpaceKey } from "@/lib/spaces";
+import { MainNav } from "@/components/MainNav";
 
 type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
 

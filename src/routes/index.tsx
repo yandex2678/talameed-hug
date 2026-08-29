@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { getSpaceClient } from "@/lib/spaces";
 import { translateError } from "@/components/SpaceAuth";
+import { MainNav } from "@/components/MainNav";
 
 export const Route = createFileRoute("/")({
   head: () => ({
