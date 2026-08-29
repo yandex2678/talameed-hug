@@ -110,7 +110,7 @@ export function SpaceAuth({ space, children }: Props) {
   if (session) {
     const status = profile?.status ?? "pending";
     return (
-      <SpaceShell space={space}>
+      <SpaceShell space={space} onSignOut={signOut}>
         <div className="text-center">
           <h1 className="text-2xl font-normal text-foreground">{session.user.email}</h1>
           <p className="mt-4 text-sm text-muted-foreground">
@@ -230,10 +230,19 @@ export function translateError(msg: string) {
   return msg;
 }
 
-export function SpaceShell({ space, children }: { space: SpaceKey; children: ReactNode }) {
+export function SpaceShell({
+  space,
+  children,
+  onSignOut,
+}: {
+  space: SpaceKey;
+  children: ReactNode;
+  onSignOut?: () => void;
+}) {
   const config = SPACES[space];
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-canvas px-4 py-10">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-canvas px-4 pb-10 pt-24">
+      <MainNav space={space} onSignOut={onSignOut} />
       <div className="w-full max-w-[450px] rounded-[28px] border border-border bg-card px-8 py-10 sm:px-11">
         <div className="mb-6 flex flex-col items-center gap-2">
           <Wordmark space={space} />
