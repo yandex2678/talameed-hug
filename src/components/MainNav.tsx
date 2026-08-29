@@ -33,18 +33,10 @@ export function MainNav({ space, onSignOut }: Props) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
       <nav className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-4 px-4">
-        {/* Wordmark */}
-        <Link to="/" dir="ltr" className="font-wordmark text-xl tracking-tight">
-          {"madauros".split("").map((l, i) => (
-            <span key={`${l}-${i}`} className={i < 4 ? "text-brand-green" : "text-brand-red"}>
-              {l}
-            </span>
-          ))}
-        </Link>
-
-        {/* Links */}
-        <div className="flex items-center gap-1 text-sm">
-          <div className="relative">
+        {/* Brand + spaces dropdown grouped at the start */}
+        <div className="flex items-center gap-3">
+          {/* Spaces dropdown — sits to the left of the logo in RTL flow */}
+          <div className="relative text-sm">
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
@@ -87,6 +79,15 @@ export function MainNav({ space, onSignOut }: Props) {
               </div>
             ) : null}
           </div>
+
+          {/* Wordmark */}
+          <Link to="/" dir="ltr" className="font-wordmark text-xl tracking-tight">
+            {"madauros".split("").map((l, i) => (
+              <span key={`${l}-${i}`} className={i < 4 ? "text-brand-green" : "text-brand-red"}>
+                {l}
+              </span>
+            ))}
+          </Link>
         </div>
 
         {/* Auth action */}
