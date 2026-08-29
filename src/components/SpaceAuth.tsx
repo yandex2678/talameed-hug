@@ -3,6 +3,7 @@ import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { getSpaceClient, SPACES, STATUS_LABEL, type SpaceKey } from "@/lib/spaces";
 import { MainNav } from "@/components/MainNav";
+import { PasswordField } from "@/components/PasswordField";
 
 type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
 
@@ -162,23 +163,16 @@ export function SpaceAuth({ space, children }: Props) {
         </div>
 
         {mode === "forgot" ? null : (
-        <div className="field">
-          <input
+          <PasswordField
             id="password"
-            type="password"
+            name="password"
+            label="كلمة المرور"
             required
-            dir="ltr"
             minLength={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder=" "
-            className="field-input"
             autoComplete={mode === "login" ? "current-password" : "new-password"}
           />
-          <label htmlFor="password" className="field-label">
-            كلمة المرور
-          </label>
-        </div>
         )}
 
         {mode === "login" ? (

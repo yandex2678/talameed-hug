@@ -3,6 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { getSpaceClient } from "@/lib/spaces";
 import { translateError } from "@/components/SpaceAuth";
 import { MainNav } from "@/components/MainNav";
+import { PasswordField } from "@/components/PasswordField";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -142,23 +143,16 @@ function StudentLogin() {
         </div>
 
         {mode === "forgot" ? null : (
-          <div className="field">
-            <input
-              id="password"
-              type="password"
-              required
-              dir="ltr"
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder=" "
-              className="field-input"
-              autoComplete={mode === "login" ? "current-password" : "new-password"}
-            />
-            <label htmlFor="password" className="field-label">
-              كلمة المرور
-            </label>
-          </div>
+          <PasswordField
+            id="password"
+            name="password"
+            label="كلمة المرور"
+            required
+            minLength={6}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete={mode === "login" ? "current-password" : "new-password"}
+          />
         )}
 
         {mode === "login" ? (
