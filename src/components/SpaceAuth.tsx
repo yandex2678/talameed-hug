@@ -238,7 +238,7 @@ export function SpaceShell({
 }: {
   space: SpaceKey;
   children: ReactNode;
-  onSignOut?: () => void;
+  onSignOut?: (() => void) | undefined;
 }) {
   const config = SPACES[space];
   return (

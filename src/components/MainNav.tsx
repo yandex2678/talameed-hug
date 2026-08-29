@@ -12,7 +12,7 @@ interface Props {
   /** Active space accent for the current page */
   space?: SpaceKey;
   /** When provided, a "تسجيل الخروج" button replaces the login link */
-  onSignOut?: () => void;
+  onSignOut?: (() => void) | undefined;
 }
 
 export function MainNav({ space, onSignOut }: Props) {
