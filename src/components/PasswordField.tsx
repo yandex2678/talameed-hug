@@ -23,7 +23,7 @@ export function PasswordField({ label, id, className, ...rest }: PasswordFieldPr
         type={shown ? "text" : "password"}
         dir="ltr"
         placeholder=" "
-        className="field-input pe-12"
+        className="field-input ps-12"
         {...rest}
       />
       <label htmlFor={inputId} className="field-label">
@@ -34,7 +34,7 @@ export function PasswordField({ label, id, className, ...rest }: PasswordFieldPr
         tabIndex={-1}
         aria-label={shown ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
         onClick={() => setShown((v) => !v)}
-        className="absolute inset-inline-end-0.5rem top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+        className="absolute inset-inline-start-0.5rem top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
       >
         {shown ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
       </button>
