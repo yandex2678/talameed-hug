@@ -95,7 +95,7 @@ function StudentLogin() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/talameed`,
+          emailRedirectTo: `${window.location.origin}/`,
           data: { space: "talameed" },
         },
       });
