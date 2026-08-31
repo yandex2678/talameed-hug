@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { SPACE_LABEL, STATUS_LABEL, type SpaceKey } from "@/lib/spaces";
+import { deleteUserAccount } from "@/lib/admin-users.functions";
 
 type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
 type LevelRow = Database["public"]["Tables"]["levels"]["Row"];
@@ -86,9 +87,21 @@ export function UsersPanel({ client }: { client: SupabaseClient<Database> }) {
 
   const remove = async (row: ProfileRow) => {
     if (!window.confirm(`حذف المستخدم «${row.email}»؟`)) return;
-    const { error: err } = await client.from("profiles").delete().eq("id", row.id);
-    if (err) setError("تعذّر حذف المستخدم.");
-    else await load();
+    try {
+      // L'espace admin utilise un client dédié : passer son jeton
+      // explicitement, car le middleware lit la session du client généré.
+      const { data: sessionData } = await client.auth.getSession();
+      const token = sessionData.session?.access_token;
+      if (!token) throw new Error("no session");
+      await deleteUserAccount({
+        data: { userId: row.id },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setError(null);
+      await load();
+    } catch {
+      setError("تعذّر حذف المستخدم.");
+    }
   };
 
   const levelName = (id: string | null) => levels.find((l) => l.id === id)?.name ?? "—";
