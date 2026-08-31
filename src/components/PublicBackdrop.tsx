@@ -1,21 +1,25 @@
-import mathPattern from "@/assets/math-pattern.jpg.asset.json";
+import type { ReactNode } from "react";
+import doodleBg from "@/assets/math-doodle-bg.jpg";
 
 /**
- * Fond subtil "à la Padlet" pour les pages déconnectées :
- * motifs mathématiques en tuiles, très estompés, voile clair par-dessus.
+ * Fond léger style "Padlet" pour les espaces déconnectés :
+ * motif de doodles de maths pastel en mosaïque + voile clair
+ * pour garder le contenu lisible.
  */
-export function PublicBackdrop() {
+export function PublicBackdrop({ children }: { children: ReactNode }) {
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-canvas">
+    <div className="relative min-h-screen">
       <div
-        className="absolute -inset-8 opacity-[0.05]"
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 opacity-70"
         style={{
-          backgroundImage: `url("${mathPattern.url}")`,
+          backgroundImage: `url(${doodleBg})`,
           backgroundRepeat: "repeat",
-          backgroundSize: "520px auto",
+          backgroundSize: "704px 384px",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-canvas/60 via-canvas/80 to-canvas" />
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 bg-background/55" />
+      <div className="relative z-10">{children}</div>
     </div>
   );
 }

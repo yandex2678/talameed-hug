@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { getSpaceClient } from "@/lib/spaces";
+import { consumeAuthRedirect, getSpaceClient } from "@/lib/spaces";
 import { translateError } from "@/components/SpaceAuth";
 import { MainNav } from "@/components/MainNav";
 import { PasswordField } from "@/components/PasswordField";
+import { PublicBackdrop } from "@/components/PublicBackdrop";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,7 +28,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-canvas px-4 pb-16 pt-24">
+    <PublicBackdrop>
+    <main className="flex min-h-screen flex-col items-center justify-center gap-8 px-4 pb-16 pt-24">
       <MainNav space="talameed" />
       <div className="text-center">
         <div dir="ltr" className="font-wordmark text-5xl tracking-tight">
@@ -58,6 +60,7 @@ function Index() {
         </Link>
       </div>
     </main>
+    </PublicBackdrop>
   );
 }
 
@@ -73,9 +76,11 @@ function StudentLogin() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    client.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/talameed" });
-    });
+    consumeAuthRedirect(client).then(() =>
+      client.auth.getSession().then(({ data }) => {
+        if (data.session) navigate({ to: "/talameed" });
+      }),
+    );
   }, [client, navigate]);
 
   const submit = async (e: React.FormEvent) => {
@@ -114,7 +119,7 @@ function StudentLogin() {
   };
 
   return (
-    <div className="w-full max-w-[420px] rounded-[28px] border border-border bg-card px-8 py-10 sm:px-10">
+    <div className="w-full max-w-[420px] rounded-[28px] border border-border bg-card/95 px-8 py-10 shadow-lg backdrop-blur-sm sm:px-10">
       <h2 className="text-center text-2xl font-normal text-foreground">
         {mode === "login" ? "تسجيل الدخول" : mode === "signup" ? "إنشاء حساب" : "نسيت كلمة المرور"}
       </h2>

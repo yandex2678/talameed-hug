@@ -1,9 +1,10 @@
 import { useEffect, useState, type ReactNode } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import { getSpaceClient, SPACES, STATUS_LABEL, type SpaceKey } from "@/lib/spaces";
+import { consumeAuthRedirect, getSpaceClient, SPACES, STATUS_LABEL, type SpaceKey } from "@/lib/spaces";
 import { MainNav } from "@/components/MainNav";
 import { PasswordField } from "@/components/PasswordField";
+import { PublicBackdrop } from "@/components/PublicBackdrop";
 
 type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
 
@@ -36,10 +37,12 @@ export function SpaceAuth({ space, children }: Props) {
     const { data: sub } = client.auth.onAuthStateChange((_e, s) => {
       setSession(s);
     });
-    client.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setReady(true);
-    });
+    consumeAuthRedirect(client).then(() =>
+      client.auth.getSession().then(({ data }) => {
+        setSession(data.session);
+        setReady(true);
+      }),
+    );
     return () => sub.subscription.unsubscribe();
   }, [client]);
 
@@ -236,19 +239,21 @@ export function SpaceShell({
 }) {
   const config = SPACES[space];
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-canvas px-4 pb-10 pt-24">
-      <MainNav space={space} onSignOut={onSignOut} />
-      <div className="w-full max-w-[450px] rounded-[28px] border border-border bg-card px-8 py-10 sm:px-11">
-        <div className="mb-6 flex flex-col items-center gap-2">
-          <Wordmark space={space} />
-          <span className="text-xs tracking-wide text-muted-foreground" dir="ltr">
-            {config.host}
-          </span>
+    <PublicBackdrop>
+      <div className="flex min-h-screen flex-col items-center justify-center px-4 pb-10 pt-24">
+        <MainNav space={space} onSignOut={onSignOut} />
+        <div className="w-full max-w-[450px] rounded-[28px] border border-border bg-card/95 px-8 py-10 shadow-lg backdrop-blur-sm sm:px-11">
+          <div className="mb-6 flex flex-col items-center gap-2">
+            <Wordmark space={space} />
+            <span className="text-xs tracking-wide text-muted-foreground" dir="ltr">
+              {config.host}
+            </span>
+          </div>
+          {children}
         </div>
-        {children}
+        <p className="mt-6 text-xs text-muted-foreground">مداوروس — فضاءات منفصلة، جلسات منفصلة</p>
       </div>
-      <p className="mt-6 text-xs text-muted-foreground">مداوروس — فضاءات منفصلة، جلسات منفصلة</p>
-    </div>
+    </PublicBackdrop>
   );
 }
 
